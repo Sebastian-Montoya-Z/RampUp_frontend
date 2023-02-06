@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=vagrant
 WorkingDirectory=/home/vagrant/RampUp/RampUp_frontend/frontend/
-Environment=PORT=8080 AUTH_API_ADDRESS=http://127.0.0.1:8000 TODOS_API_ADDRESS=http://127.0.0.1:8082
+Environment=PORT=8080 AUTH_API_ADDRESS=http://192.168.33.11:8000 TODOS_API_ADDRESS=http://192.168.33.12:8082
 ExecStart=npm start
 
 Restart=always
