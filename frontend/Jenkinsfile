@@ -10,7 +10,8 @@ pipeline {
         stage('Build image') {
             steps{
                 script {
-                    sh ' docker build . -t web --no-cache'
+                    sh 'ls'
+                    sh 'docker build . -t web --no-cache'
                 }
             }
         }
