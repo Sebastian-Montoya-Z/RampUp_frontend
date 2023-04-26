@@ -1,6 +1,6 @@
+def front_image
 pipeline {
     agent any
-    def front_image
     environment {
         ANSIBLE_PLAYBOOK_PATH = '/etc/ansible/playbooks/frontend.yml'
         ANSIBLE_INVENTORY_PATH = '/etc/ansible/aws_ec2.yml'
