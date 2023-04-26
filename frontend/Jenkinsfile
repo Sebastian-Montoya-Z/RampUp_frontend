@@ -7,10 +7,18 @@ pipeline {
     }
 
     stages {
+        def front_image
         stage('Build and push image') {
             steps{
                 script {
-                    def front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend")
+                    front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend")
+                }
+            }
+        }
+
+        stage('Build and push image') {
+            steps{
+                script {
                     front_image.push('latest')
                 }
             }
