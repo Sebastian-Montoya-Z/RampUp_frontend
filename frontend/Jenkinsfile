@@ -10,7 +10,7 @@ pipeline {
         stage('Build image') {
             steps{
                 script {
-                    front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend")
+                    sh ' docker build . -t web --no-cache'
                 }
             }
         }
@@ -18,7 +18,7 @@ pipeline {
         stage('push image') {
             steps{
                 script {
-                    front_image.push('latest')
+                    sh ' docker run --name web -d --network mynetwork -p 8080:8080 -e ZIPKIN_URL=http://internal-SMZ-lb-internal-945498851.us-east-1.elb.amazonaws.com:9411/api/v2/spans -e PORT=8080 -e AUTH_API_ADDRESS=http://internal-SMZ-lb-internal-945498851.us-east-1.elb.amazonaws.com:8081 -e TODOS_API_ADDRESS=http://internal-SMZ-lb-internal-945498851.us-east-1.elb.amazonaws.com:8082 web'
                 }
             }
         }
