@@ -7,18 +7,9 @@ pipeline {
     }
 
     stages {
-        
-        stage('Clone repository') {
-            steps {
-                checkout scm
-    //            git credentialsId: 'git', url: 'https://github.com/Sebastian-Montoya-Z/RampUp_frontend'
-                sh 'ls'
-            }
-        }
-        
         stage('Build and push image') {
-            steps {
-                def front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend", "./frontend")
+            script {
+                def front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend")
                 front_image.push('latest')
             }
         }
