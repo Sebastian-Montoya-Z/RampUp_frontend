@@ -11,7 +11,7 @@ pipeline {
             steps{
                 script {
                     sh 'ls'
-                    sh 'docker build . -t web --no-cache'
+                    sh 'docker build ./frontend -t web --no-cache'
                 }
             }
         }
