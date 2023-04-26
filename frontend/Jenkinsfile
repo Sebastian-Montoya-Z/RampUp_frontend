@@ -1,14 +1,13 @@
 pipeline {
     agent any
-
+    def front_image
     environment {
         ANSIBLE_PLAYBOOK_PATH = '/etc/ansible/playbooks/frontend.yml'
         ANSIBLE_INVENTORY_PATH = '/etc/ansible/aws_ec2.yml'
     }
 
     stages {
-        def front_image
-        stage('Build and push image') {
+        stage('Build image') {
             steps{
                 script {
                     front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend")
@@ -16,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Build and push image') {
+        stage('push image') {
             steps{
                 script {
                     front_image.push('latest')
