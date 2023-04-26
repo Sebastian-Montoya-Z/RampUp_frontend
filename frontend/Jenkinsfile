@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_PLAYBOOK_PATH = '/etc/ansible/playbooks/frontend.yml'
+        ANSIBLE_INVENTORY_PATH = '/etc/ansible/aws_ec2.yml'
+    }
+
+    stages {
+        
+        stage('Clone repository') {
+            steps {
+                checkout scm
+    //            git credentialsId: 'git', url: 'https://github.com/Sebastian-Montoya-Z/RampUp_frontend'
+                sh 'ls'
+            }
+        }
+        
+        stage('Build and push image') {
+            steps {
+                def front_image = docker.build("sebastianmontoyaz/rampup-perfi:frontend", "./frontend")
+                front_image.push('latest')
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                ansiblePlaybook(
+                    playbook: "${env.ANSIBLE_PLAYBOOK_PATH}",
+                    inventory: "${env.ANSIBLE_INVENTORY_PATH}",
+                    extras: '-e ilb=internal-SMZ-lb-internal-945498851.us-east-1.elb.amazonaws.com'
+                )
+            }
+        }
+    }
+}
