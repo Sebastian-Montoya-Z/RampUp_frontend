@@ -1,17 +1,23 @@
-def front_image
 pipeline {
     agent any
     environment {
-        ANSIBLE_PLAYBOOK_PATH = '/etc/ansible/playbooks/frontend.yml'
+        ANSIBLE_PLAYBOOK_PATH = '/etc/ansible/playbooks/auth.yml'
         ANSIBLE_INVENTORY_PATH = '/etc/ansible/aws_ec2.yml'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
     stages {
+        stage('Clone repository') {
+            steps {
+                git branch: 'Development', url: 'https://github.com/Sebastian-Montoya-Z/RampUp_frontend'
+            }
+        }
+
         stage('Build image') {
             steps{
                 script {
                     sh 'ls'
-                    sh 'docker build ./frontend -t sebastianmontoyaz/rampup-perfi:frontend --no-cache'
+                    sh 'docker build ./auth-api -t sebastianmontoyaz/rampup-perfi:frontend --no-cache'
                 }
             }
         }
@@ -19,18 +25,19 @@ pipeline {
         stage('push image') {
             steps{
                 script {
-                    sh ' docker push sebastianmontoyaz/rampup-perfi:frontend'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh ' docker push sebastianmontoyaz/rampup-perfi:frontned'
                 }
             }
         }
 
         stage('Run Ansible Playbook') {
             steps {
-                ansiblePlaybook(
-                    playbook: "${env.ANSIBLE_PLAYBOOK_PATH}",
-                    inventory: "${env.ANSIBLE_INVENTORY_PATH}",
-                    extras: '-e ilb=internal-SMZ-lb-internal-945498851.us-east-1.elb.amazonaws.com'
-                )
+                script{
+                    sh 'cd /etc/ansible'
+                    sh 'echo $PWD'
+                    sh 'ansible-playbook /etc/ansible/playbooks/frontend.yml -i /etc/ansible/aws_ec2.yml --extra-vars="ilb=internal-SMZ-lb-internal-1572098561.us-east-1.elb.amazonaws.com nlb=SMZ-nlb-redis-eef97d87feff6b1b.elb.us-east-1.amazonaws.com elb=SMZ-lb-external-211508713.us-east-1.elb.amazonaws.com"'
+                }
             }
         }
     }
