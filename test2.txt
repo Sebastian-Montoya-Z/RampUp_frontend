@@ -1,0 +1,7 @@
+<Password> Df2jsg==p&&00GB5C6WLby27/4 AM770elRYVy3ZFWBbGeCcDXup-0&gdXg==</Password>
+
+BlobEndpoint=https://fastlytest.blob.core.windows.net/QueueEndpoint-https://fastlytest.queue.core.windows.net/FileEndpoint-https://fastlytest.file.core.windows.net/TableEndpoint-https://fastlytest.table.c
+
+?v=2017-11-098ss=b8art=0&p=rse-2018-10-22T15:35:1828-2018-10-22T07:35:18Z&spr=https&sig=hMZ2u6jPPeroE034qWHgNecLZ/loc2mfms%2BHA0%D
+
+https://fastlytest.blob.core.windows.net/?sv-2017-11-098ss-bat-o&sp-rase-2018-10-22115:35:1828st-2018-10-22T07:35:1828spr=https&sig=h42%28u6jPPetroE034qWHgNeclZjloc2mfms%2BHAG
